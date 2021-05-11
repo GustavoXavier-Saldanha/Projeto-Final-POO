@@ -2,7 +2,9 @@ package pessoas;
 
 import java.time.LocalDate;
 
-public class Funcionario extends Pessoas implements Verificacoes{
+import Interfaces.Verificacoes;
+
+public class Funcionario extends Pessoas implements Verificacoes, Comparable<Funcionario>{
 	private double salarioBruto;
 	private double descontoInss;
 	private double descontoIr;
@@ -49,14 +51,16 @@ public class Funcionario extends Pessoas implements Verificacoes{
 				+ descontoIr;
 	}
 
-
-
-	@Override
-	public void verificaCpf() {	
-	}
-
 	@Override
 	public void verificaLetrasCpf() {
+	}
+
+
+
+	@Override
+	public int compareTo(Funcionario ordenarPorNome) {
+		return Pessoas.cpf.compareToIgnoreCase(ordenarPorNome.getCpf());
+		
 	}
 		
 
