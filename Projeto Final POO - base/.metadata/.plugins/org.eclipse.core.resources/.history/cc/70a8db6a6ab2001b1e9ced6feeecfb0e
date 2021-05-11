@@ -1,0 +1,99 @@
+package Arquivos;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+
+import pacoteEnum.ExpecificaDependentes;
+import pessoas.Dependentes;
+import pessoas.Funcionario;
+
+public class Arquivos {
+	protected String arquivo;
+	List<Funcionario> funcionariosNoArquivo = new ArrayList<>();
+	Scanner sc;
+	
+	
+	
+	public String getArquivo() {
+		return arquivo;
+	}
+
+	public void setArquivo(String arquivo) {
+		this.arquivo = arquivo;
+	}
+
+	public Arquivos(String arquivo) {
+		super();
+		this.arquivo = arquivo;
+	}
+	
+	public void lerArquivos() {
+		try {
+			Scanner sc = new Scanner(new InputStreamReader(new FileInputStream(new File(arquivo))));
+			  Funcionario funcionario = null;
+              while(sc.hasNext()) {
+                  String linha = sc.nextLine();
+                  if(!linha.isEmpty()) {
+                      if(funcionario != null) {
+                          String[] dadoDependente = linha.split(";");
+                          String nomeDependente = dadoDependente[0];
+                          String cpfDependente = dadoDependente[1];
+                          LocalDate dataDependente = LocalDate.parse(dadoDependente[2]);
+                          String tipoDependente = dadoDependente[3];
+//                          Dependentes dependentes = new Dependentes(nomeDependente, cpfDependente, dataDependente, tipoDependente);
+//                          funcionario.getDependentes().add(dependentes);
+	                      continue;
+                      }else {
+                          String[] dadoDaLinha = linha.split(";");
+                          String nome = dadoDaLinha[0];
+                          String cpf = dadoDaLinha[1];
+                          LocalDate data = LocalDate.parse(dadoDaLinha[2]);
+                          double descontoInss = Integer.parseInt(dadoDaLinha[3]);
+                          double descontoIr = Integer.parseInt(dadoDaLinha[4]);
+                          double salarioBruto = Integer.parseInt(dadoDaLinha[5]);
+                          funcionario = new Funcionario(nome, cpf, data, descontoInss, descontoIr, salarioBruto);						
+                      	}
+                      }else {
+                    	  funcionariosNoArquivo.add(funcionario);
+    					funcionario = null;
+    				}
+    				
+    			}funcionariosNoArquivo.add(funcionario);
+             
+		}
+		  catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	public void saidaArquivo() {
+		try {
+			OutputStreamWriter out = new OutputStreamWriter(new FileOutputStream(arquivo, true));
+			for (Funcionario funcionario : funcionariosNoArquivo) {
+                if(funcionario != null) {
+                	out.append(funcionario.toString() + "\n");
+                }
+            }
+			out.close();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		for (Funcionario funcionario : funcionariosNoArquivo) {
+            if(funcionario != null) {
+            	System.out.println(funcionario);
+            }
+	}
+	}
+}
