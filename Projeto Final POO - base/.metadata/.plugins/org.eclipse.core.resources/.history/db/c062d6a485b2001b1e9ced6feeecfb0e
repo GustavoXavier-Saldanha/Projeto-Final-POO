@@ -1,0 +1,88 @@
+package MainPrograma;
+
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+
+import Arquivos.Arquivos;
+import pessoas.Funcionario;
+
+
+public class Menu {
+	
+	public static void menu() {
+	
+		List<Funcionario> funcionarios = new ArrayList<>();
+		DateTimeFormatter df = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+		Scanner ler = new Scanner(System.in);
+		int opcao = 0;
+		
+		
+		do {
+			System.out.println("1 - Ler os dados do arquivo.");
+			System.out.println("2 - Exibir todos os funcionarios e dependentes.");
+			System.out.println("3 - Exibir os dados de um funcionario.");
+			System.out.println("4 - Criar o arquivo de saida.");
+			System.out.println("5 - Encerrar a aplicação.");
+			
+			try {
+				opcao = ler.nextInt();	
+			} catch (Exception e) {
+				System.out.println("Encerrando, pois não digitou valor inteiro");
+			}
+			ler.nextLine();
+			
+			switch(opcao) {
+			
+					
+				case 1:
+					 Arquivos.lerArquivos();
+					break;
+					
+				case 2:
+					
+					for (Funcionario funcionario : funcionarios) {
+			            if(funcionario != null) {
+			            	System.out.println(funcionario.toString());
+			            }
+					}
+					
+					break;
+					
+				case 3:
+					System.out.println("Digite o CPF do usuario para a visualização:");
+					String cpfVisualizacao = ler.nextLine();
+					
+					for (Funcionario funcionario : funcionarios) {
+
+			            if (funcionario.getCpf() .equals(cpfVisualizacao)) {
+			            	
+			            	System.out.println(funcionario);
+			            }
+			            System.out.println(funcionario.getCpf());
+					}
+					break;
+					
+				case 4:					
+					Arquivos.saidaArquivo();
+					break;
+
+					
+				case 5:
+					System.out.println("A aplicação foi encerrada");
+					break;
+					default:
+						System.out.println("Opção invalida");
+						break;
+				}
+				
+			}while (opcao != 5);
+			
+			ler.close();
+		}
+
+}
+	
+
+
