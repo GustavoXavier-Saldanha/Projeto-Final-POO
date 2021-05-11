@@ -1,0 +1,41 @@
+package pessoas;
+
+import java.time.LocalDate;
+
+import pacoteEnum.ExpecificaDependentes;
+import pacoteInterface.Verificacoes;
+
+public class Dependentes extends Pessoas implements Comparable<Dependentes>{
+
+	private String tipoDependente;
+
+	
+	
+	public Dependentes(String nome, String cpf, LocalDate dataNascimento, String tipoDependente) {
+		super(nome, cpf, dataNascimento);
+		this.tipoDependente = tipoDependente;
+	}
+
+
+	public String getTipoDependente() {
+		return tipoDependente;
+	}
+	public void setTipoDependente(String tipoDependente) {
+		this.tipoDependente = tipoDependente;
+	}
+
+	
+
+	@Override
+	public String toString() {
+		return "Parentesco: " + tipoDependente + "\n";
+	}
+
+
+
+	@Override
+	public int compareTo(Dependentes ordenarPorNome) {
+		return Pessoas.cpf.compareToIgnoreCase(ordenarPorNome.getCpf());
+	}
+	
+}
