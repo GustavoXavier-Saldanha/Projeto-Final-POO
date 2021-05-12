@@ -1,0 +1,5 @@
+package pacoteEnum;
+
+public enum ValoresInss {
+
+}

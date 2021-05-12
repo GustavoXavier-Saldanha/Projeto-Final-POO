@@ -1,0 +1,119 @@
+package pessoas;
+
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+
+public class Funcionario extends Pessoas implements Comparable<Funcionario>{
+	private double salarioBruto;
+	private double salarioLiquido;
+	private double descontoInss;
+	private double descontoIr;
+	private List<Dependentes> dependentes;
+	
+	
+	public Funcionario(String nome, String cpf, LocalDate dataNascimento, double salarioBruto) {
+		super(nome, cpf, dataNascimento);
+		this.salarioBruto = salarioBruto;
+		this.dependentes = new ArrayList<>();
+	}
+
+
+	
+
+	public double getSalarioBruto() {
+		return salarioBruto;
+	}
+	public void setSalarioBruto(double salarioBruto) {
+		this.salarioBruto = salarioBruto;
+	}
+
+
+	public double getDescontoInss() {
+		return descontoInss;
+	}
+	public void setDescontoInss(double descontoInss) {
+		this.descontoInss = descontoInss;
+	}
+
+
+	public double getDescontoIr() {
+		return descontoIr;
+	}
+	public void setDescontoIr(double descontoIr) {
+		this.descontoIr = descontoIr;
+	}
+
+	
+	public List<Dependentes> getDependentes() {
+		return dependentes;
+	}
+	public void setDependentes(List<Dependentes> dependentes) {
+		this.dependentes = dependentes;
+	}
+
+	
+	public double getSalarioLiquido() {
+		return salarioLiquido;
+	}
+	public void setSalarioLiquido(double salarioLiquido) {
+		this.salarioLiquido = salarioLiquido;
+	}
+
+
+	@Override
+	public String toString() {
+		return super.toString() + " Salario Bruto: " + salarioBruto + "\nDependentes: " + dependentes;
+	}
+
+
+	@Override
+	public int compareTo(Funcionario ordenarPorNome) {
+		return Funcionario.this.getCpf().compareToIgnoreCase(ordenarPorNome.getCpf());	
+	}
+	
+	public double descontoInss() {
+		if(this.salarioBruto <= 1100) {
+			this.descontoInss = (this.salarioBruto * (7.5/100)) - 0;	
+		}
+		else if(this.salarioBruto <= 2203.48 && this.salarioBruto >= 1100.01) {
+			
+			this.descontoInss = (this.salarioBruto * (9/100)) - 16.5;
+		}
+		else if(this.salarioBruto <= 3305.22 && this.salarioBruto >= 2203.49) {
+		
+			 this.descontoInss = (this.salarioBruto * (12/100)) - 82.61;
+		}
+		else if(this.salarioBruto >= 3305.23) {
+		
+			this.descontoInss = (this.salarioBruto * (14/100)) - 148.72;
+		}
+		return this.descontoInss;
+	}
+	
+	public double calculoIr(int dependentes) {
+		if(this.salarioBruto < 1903.98) {
+			this.descontoIr = 0;	
+		}
+		else if(this.salarioBruto <= 2826.65 && this.salarioBruto >= 1903.98) {
+			this.descontoIr = ((this.salarioBruto - (Funcionario.this.dependentes.size() * 189.59) - descontoInss()) * (7.5/100)) - 142.8;
+		}
+		
+		else if(this.salarioBruto <= 3751.05 && this.salarioBruto >= 2826.66) {
+			this.descontoIr = ((this.salarioBruto - (Funcionario.this.dependentes.size() * 189.59) - descontoInss()) * (15/100)) - 354.8;
+		}
+		else if(this.salarioBruto >= 3751.06 && this.salarioBruto >= 4664.68) {
+			this.descontoIr = ((this.salarioBruto - (Funcionario.this.dependentes.size() * 189.59) - descontoInss()) * (22.5/100)) - 636.13;
+		}
+		else if(this.salarioBruto >= 4664.68) {
+			this.descontoIr = ((this.salarioBruto - (Funcionario.this.dependentes.size() * 189.59) - descontoInss()) * (27.5/100)) - 869.36;
+		}
+		return this.descontoIr;
+	}
+	
+	public double salarioLiquido() {
+		return this.salarioLiquido = this.salarioBruto - this.descontoInss - this.descontoIr;
+	}
+
+
+}

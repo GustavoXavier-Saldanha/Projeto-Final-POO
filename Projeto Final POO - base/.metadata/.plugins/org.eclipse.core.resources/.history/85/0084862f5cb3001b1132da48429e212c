@@ -1,0 +1,6 @@
+package pacoteEnum;
+
+public enum ExpecificaDescontos {
+	
+
+}

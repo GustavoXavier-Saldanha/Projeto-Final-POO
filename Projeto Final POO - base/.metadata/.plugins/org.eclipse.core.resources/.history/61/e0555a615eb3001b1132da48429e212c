@@ -1,0 +1,59 @@
+package pessoas;
+
+import java.time.LocalDate;
+import java.time.Period;
+import java.time.format.DateTimeFormatter;
+
+public class Dependentes extends Pessoas implements Comparable<Dependentes>{
+
+	private String tipoDependente;
+
+	
+	
+	public Dependentes(String nome, String cpf, LocalDate dataNascimento, String tipoDependente) {
+		super(nome, cpf, dataNascimento);
+		this.tipoDependente = tipoDependente;
+	}
+
+
+	public String getTipoDependente() {
+		return tipoDependente;
+	}
+	public void setTipoDependente(String tipoDependente) {
+		this.tipoDependente = tipoDependente;
+	}
+
+	
+
+	@Override
+	public String toString() {
+		return super.toString() + " Parentesco: " + tipoDependente;
+	}
+
+
+
+	@Override
+	public int compareTo(Dependentes ordenarPorNome) {
+		return Dependentes.this.getCpf().compareToIgnoreCase(ordenarPorNome.getCpf());
+	}
+	
+	
+	
+	public boolean verificaDependentes(String data){
+
+        DateTimeFormatter df = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        LocalDate dataAntiga = LocalDate.parse(data, df);
+
+        Period periodo = Period.between(dataAntiga, LocalDate.now());
+
+        if(periodo.getYears()>= 18) {
+
+            return true;
+
+        }else {
+            return false;}
+    }
+	
+	
+	
+}
